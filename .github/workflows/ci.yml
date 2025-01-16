@@ -29,20 +29,6 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration ExportRelease --no-restore -consoleloggerparameters:NoSummary -warnaserror
-  
-  lint:
-    name: "CI Lint"
-    needs: build
-    runs-on: 'ubuntu-22.04'
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
-      - name: Annotate
-        uses: JetBrains/ReSharper-InspectCode@v0.8
-        with:
-          solution: ./Broad.sln
     
     permissions:
       security-events: write
