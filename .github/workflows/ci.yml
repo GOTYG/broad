@@ -28,7 +28,7 @@ jobs:
       - name: Install Dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --configuration ExportRelease --no-restore
+        run: dotnet build --configuration ExportRelease --no-restore -consoleloggerparameters:NoSummary
   
   lint:
     name: "CI Lint"
