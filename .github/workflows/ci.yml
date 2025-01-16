@@ -30,6 +30,27 @@ jobs:
       - name: Build
         run: dotnet build --configuration ExportRelease --no-restore
   
+  lint:
+    name: "CI Lint"
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Annotate
+        uses: JetBrains/ReSharper-InspectCode@v0.8
+        with:
+          solution: ./Broad.sln
+    
+    permissions:
+      security-events: write
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+  
   unit-test:
     name: "CI Unit Test"
     runs-on: 'ubuntu-22.04'
