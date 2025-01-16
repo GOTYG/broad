@@ -9,7 +9,7 @@ namespace Broad;
 public class ExampleTest
 {
     [TestCase]
-    public void TestFoo()
+    public static void TestFoo()
     {
         var x = 5;
         Assertions.AssertThat(5).IsEqual(5);

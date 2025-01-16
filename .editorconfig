@@ -1,0 +1,5 @@
+[gdunit4_testadapter/*]
+generated_code = true
+
+[addons/*]
+generated_code = true
