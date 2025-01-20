@@ -1,5 +1,8 @@
-﻿name: ci-pr-example
-run-name: ${{ github.head_ref || github.ref_name }}-ci-pr-example
+﻿name: PR Workflow
+run-name: ${{ github.head_ref || github.ref_name }}/pr-workflow
+
+env:
+  DOTNET_VERSION: '8.0.404'
 
 on:
   pull_request:
@@ -9,12 +12,35 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ci-pr-example${{ github.event.number }}
+  group: ci-workflow${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
+  build:
+    name: "CI Build"
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Install Dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration ExportRelease --no-restore -consoleloggerparameters:NoSummary -warnaserror
+    
+    permissions:
+      security-events: write
+      actions: write
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
+  
   unit-test:
     name: "CI Unit Test"
+    needs: [build]
     runs-on: 'ubuntu-22.04'
     timeout-minutes: 10
     permissions:
@@ -36,3 +62,4 @@ jobs:
             res://.
           timeout: 5
           report-name: test_report.xml      
+   
