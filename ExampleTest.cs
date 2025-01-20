@@ -11,7 +11,6 @@ public class ExampleTest
     [TestCase]
     public static void TestFoo()
     {
-        var x = 5;
         Assertions.AssertThat(5).IsEqual(5);
     }
 }
